@@ -22,27 +22,7 @@ fi
 # just install the right ones? This should enable cross compilation in the
 # future anyway.
 if [ -z "${windows}" ]; then
-    curl -SsO http://static.rust-lang.org/dist/rust-nightly-i686-$target.tar.gz
-    tar xfz rust-nightly-i686-$target.tar.gz
-    curl -SsO http://static.rust-lang.org/dist/rust-nightly-x86_64-$target.tar.gz
-    tar xfz rust-nightly-x86_64-$target.tar.gz
-
-    if [ "${BITS}" = "32" ]; then
-        src=x86_64
-        dst=i686
-    else
-        src=i686
-        dst=x86_64
-    fi
-    cp -r rust-nightly-$src-$target/lib/rustlib/$src-$target \
-          rust-nightly-$dst-$target/lib/rustlib
-    (cd rust-nightly-$dst-$target && \
-     find lib/rustlib/$src-$target/lib -type f >> \
-     lib/rustlib/manifest.in)
-
-    ./rust-nightly-$dst-$target/install.sh --prefix=rustc
-    rm -rf rust-nightly-$src-$target
-    rm -rf rust-nightly-$dst-$target
+    curl -s http://www.rust-lang.org/rustup.sh | sudo sh
 else
     rm -rf *.exe rustc
     curl -O http://static.rust-lang.org/dist/rust-nightly-install.exe
