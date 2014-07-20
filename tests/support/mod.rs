@@ -120,6 +120,10 @@ impl ProjectBuilder {
         self.process(cargo_dir().join(program))
     }
 
+    pub fn cargo_process_dirty(&self, program: &str) -> ProcessBuilder {
+        self.process(cargo_dir().join(program))
+    }
+
     pub fn file<B: BytesContainer, S: Str>(mut self, path: B,
                                            body: S) -> ProjectBuilder {
         self.files.push(FileBuilder::new(self.root.join(path), body.as_slice()));

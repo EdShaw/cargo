@@ -805,6 +805,49 @@ test!(custom_build_in_dependency {
                 execs().with_status(0));
 })
 
+// tests that custom build in dep can be built twice in a row - issue 227
+test!(custom_build_in_dependency_twice {
+    let mut p = project("foo");
+    let bar = p.root().join("bar");
+
+    p = p
+        // .file(".cargo/config", format!(r#"
+        //     paths = ['{}']
+        // "#, bar.display()).as_slice())
+        .file("Cargo.toml", r#"
+            [project]
+
+            name = "foo"
+            version = "0.5.0"
+            authors = ["wycats@example.com"]
+
+            [[bin]]
+            name = "foo"
+            [dependencies.bar]
+            path = "./bar"
+        "#)
+        .file("src/foo.rs", r#"
+            extern crate bar;
+            fn main() { bar::bar() }
+        "#)
+        .file("bar/Cargo.toml", format!(r#"
+            [project]
+
+            name = "bar"
+            version = "0.0.1"
+            authors = ["wycats@example.com"]
+            build = '{}'
+        "#, "echo test"))
+        .file("bar/src/lib.rs", r#"
+            pub fn bar() {}
+        "#);
+    assert_that(p.cargo_process("cargo-build"),
+                execs().with_status(0));
+    // We DON'T want to cargo_process, because we don't want a clean root.
+    assert_that(p.cargo_process_dirty("cargo-build"),
+                execs().with_status(0));
+})
+
 // this is testing that src/<pkg-name>.rs still works (for now)
 test!(many_crate_types_old_style_lib_location {
     let mut p = project("foo");
