@@ -92,7 +92,7 @@ $(TESTDIR)/test-integration: $(HAMCREST) $(TEST_SRC) $(BIN_TARGETS) | $(TESTDIR)
 	$(RUSTC) --test $(RUSTC_FLAGS) $(TEST_DEPS) -L$(TARGET) -o $@ tests/tests.rs
 
 $(TESTDIR)/test-unit: $(TOML) $(HAMCREST) $(SRC) $(HAMMER) | $(TESTDIR)/
-	$(RUSTC) --test -g $(RUSTC_FLAGS) $(TEST_DEPS) -o $@ src/cargo/lib.rs
+	$(RUSTC) --test $(RUSTC_FLAGS) $(TEST_DEPS) -o $@ src/cargo/lib.rs
 
 test-unit: $(TESTDIR)/test-unit
 	$< $(only)
