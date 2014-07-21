@@ -89,7 +89,7 @@ TEST_SRC = $(shell find tests -name '*.rs')
 TEST_DEPS = $(DEPS) -L libs/hamcrest-rust/target
 
 $(TESTDIR)/test-integration: $(HAMCREST) $(TEST_SRC) $(BIN_TARGETS) | $(TESTDIR)/
-	$(RUSTC) --test $(TEST_DEPS) -L$(TARGET) -o $@ tests/tests.rs
+	$(RUSTC) --test $(RUSTC_FLAGS) $(TEST_DEPS) -L$(TARGET) -o $@ tests/tests.rs
 
 $(TESTDIR)/test-unit: $(TOML) $(HAMCREST) $(SRC) $(HAMMER) | $(TESTDIR)/
 	$(RUSTC) --test -g $(RUSTC_FLAGS) $(TEST_DEPS) -o $@ src/cargo/lib.rs
@@ -153,5 +153,3 @@ install: $(PKGDIR)/lib/cargo/manifest.in
 
 # Disable unnecessary built-in rules
 .SUFFIXES:
-
-
