@@ -4,6 +4,7 @@ install:
   - sh ./.travis.install.deps.sh
 
 script:
+  - export RUSTC_FLAGS = -g
   - make
   - make test -j4
   - make install DESTDIR=${PWD}/destdir
