@@ -41,6 +41,9 @@ if [ -z "${windows}" ]; then
      lib/rustlib/manifest.in)
 
     ./rust-nightly-$dst-$target/install.sh --prefix=rustc
+
+    export LD_LIBRARY_PATH=$TRAVIS_BUILD_DIR/rustc/lib:$LD_LIBRARY_PATH
+
     rm -rf rust-nightly-$src-$target
     rm -rf rust-nightly-$dst-$target
 else
