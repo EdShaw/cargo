@@ -1,5 +1,4 @@
 language: rust
 
 env:
-  - BITS=32
-  - BITS=64
+  - CFG_VERSION=0.0.1-pre BITS=64
