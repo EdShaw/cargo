@@ -1,4 +1,14 @@
 language: rust
 
+script:
+  - cargo build
+  - cargo test
+  - make distcheck
+
 env:
+  - CFG_VERSION=0.0.1-pre BITS=32
   - CFG_VERSION=0.0.1-pre BITS=64
+
+os:
+  - linux
+  - osx
